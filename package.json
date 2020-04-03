@@ -1,0 +1,37 @@
+{
+  "name": "dancefloor",
+  "version": "1.0.0",
+  "description": "🚀 a powerful open source Discord Bot with a advanced music managing ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "postinstall": "node setup.js"
+  },
+  "engines": {
+    "node": "12.x",
+    "npm": ">=5.5.0"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HiiZun/Dancefloor.git"
+  },
+  "author": "HiiZun",
+  "contributors": [
+    "HiiZun"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HiiZun/Dancefloor/issues"
+  },
+  "homepage": "https://github.com/HiiZun/Dancefloor#readme",
+  "dependencies": {
+    "better-sqlite3": "^5.4.0",
+    "chalk": "^2.4.2",
+    "discord.js": "^11.5.1",
+    "enmap": "^5.0.0",
+    "inquirer": "^6.3.1",
+    "moment": "^2.24.0",
+    "moment-duration-format": "^2.3.2"
+  }
+}
