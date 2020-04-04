@@ -2,10 +2,10 @@
   "name": "dancefloor",
   "version": "1.0.0",
   "description": "🚀 a powerful open source Discord Bot with a advanced music managing ",
-  "main": "index.js",
+  "main": "dancefloor.js",
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "node setup.js"
+    "start": "node dancefloor.js"
+
   },
   "engines": {
     "node": "12.x",

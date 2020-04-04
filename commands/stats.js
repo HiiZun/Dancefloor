@@ -1,5 +1,5 @@
 const { version } = require("discord.js");
-const pkg = require("discord.js")
+const pkg = require("../package.json")
 const moment = require("moment");
 require("moment-duration-format");
 
