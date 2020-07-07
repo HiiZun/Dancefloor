@@ -49,7 +49,6 @@
     "snekfetch": "^4.0.4"
   },
   "engines": {
-    "node": "12.x",
-    "npm": "5.5.x"
+    "node": "12.x"
   }
 }
