@@ -21,8 +21,8 @@ module.exports = class {
         if (message.guild && !message.member) await message.guild.member(message.author);
         const cmd = this.client.commands.get(command) || this.client.commands.get(this.client.aliases.get(command));
         if (!cmd) return;
-        if (cmd.help.category === "Developer" && !this.client.config.admin.includes(message.author.id)||process.env.OWNER !== message.author.id) return message.channel.send("nope...");
-        const hook = new Discord.WebhookClient(this.client.config.logger.id||process.env.LOGGER_ID, this.client.config.logger.token||process.env.LOGGER_TOKEN);
+        if (cmd.help.category === "Developer" && !process.env.OWNERS.includes(message.author.id)) return message.channel.send("nope...");
+        const hook = new Discord.WebhookClient(process.env.LOGGER_ID, process.env.LOGGER_TOKEN);
         const embed = new Discord.MessageEmbed()
             .setTitle("Command Used!")
             .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))

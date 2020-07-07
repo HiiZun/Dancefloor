@@ -12,7 +12,7 @@ class Eval extends Command {
   }
 
   async execute(message, args, Discord) {
-    let checkAdmin = this.client.config.admin.includes(message.author.id);
+    let checkAdmin = process.env.OWNERS.includes(message.author.id);
     if (!checkAdmin) return message.reply("nope?");
     const code = args.join(" ");
     if (!code) return message.channel.send("❌ | Please provide code to eval.");
