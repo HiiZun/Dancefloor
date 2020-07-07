@@ -2,6 +2,9 @@
 json.sqlite
 config.js
 .github/
+yarn.lock
+
+
 # Logs
 logs
 *.log
