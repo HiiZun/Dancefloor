@@ -13,7 +13,7 @@ class Exec extends Command {
   }
 
   async execute(message, args, Discord) {
-    if (!this.client.config.admin.includes(message.author.id))
+    if (!process.env.OWNERS.includes(message.author.id))
       return message.channel.send("nope...");
     try {
       message.channel.startTyping();

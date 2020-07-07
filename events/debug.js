@@ -4,7 +4,6 @@ module.exports = class {
     }
 
     async run(debug) {
-        if (!this.client.config.debug) return;
-        else this.client.logger.log(`Debug event was sent by Discord.js: \n${debug}`, "debug");
+   if(process.env.DEBUG === "true") return this.client.logger.log(`Debug event was sent by Discord.js: \n${debug}`, "debug");
     }
 };

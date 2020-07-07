@@ -3,6 +3,8 @@ const fs = require("fs");
 
 const { Player } = require("discord-player");
 
+require("dotenv").config()
+
 class Dancefloor extends Client {
   /**
    * @constructor
@@ -14,8 +16,7 @@ class Dancefloor extends Client {
     this.aliases = new Collection();
     this.wait = require("util").promisify(setTimeout);
     this.logger = require("./modules/Logger");
-    this.config = require("./config");
-    this.admin = this.config.admin;
+    this.admin = process.env.OWNERS;
     this.db = require("quick.db");
 
   }
@@ -141,7 +142,7 @@ async function init() {
     });
   });
 
-  client.login(client.config.token||process.env.TOKEN);
+  client.login(process.env.TOKEN);
 }
 
 init();
