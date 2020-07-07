@@ -141,7 +141,7 @@ async function init() {
     });
   });
 
-  client.login(client.config.token);
+  client.login(client.config.token||process.env.TOKEN);
 }
 
 init();
