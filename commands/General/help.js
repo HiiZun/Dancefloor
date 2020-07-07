@@ -21,15 +21,6 @@ class Help extends Command {
           `Use **${this.client.prefix}help <command>** for more info.`
         )
         .addField(
-          `Fun [${
-            this.client.commands.filter(c => c.help.category === "Fun").size
-          }]`,
-          this.client.commands
-            .filter(c => c.help.category === "Fun")
-            .map(m => `\`${m.help.name}\``)
-            .join(", ")
-        )
-        .addField(
           `General [${
             this.client.commands.filter(c => c.help.category === "General").size
           }]`,
@@ -57,10 +48,7 @@ class Help extends Command {
             .map(m => `\`${m.help.name}\``)
             .join(", ")
         )
-        // .addField(
-        //   `Source Code`,
-        //   `**[Click Here](https://github.com/INEX07/pikabot)**`
-        // )
+
         .setColor("#FFFF00");
       return message.channel.send(embed);
     } else {

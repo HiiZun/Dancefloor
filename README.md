@@ -42,7 +42,7 @@ npm run start
 
 👤 **HiiZun**
 
-* Website: http://HiiZun.tk
+* Website: http://HiiZun.codes
 * Twitter: [@HiiZunfr](https://twitter.com/HiiZunfr)
 * Github: [@HiiZun](https://github.com/HiiZun)
 

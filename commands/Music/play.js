@@ -1,89 +1,77 @@
 const Command = require("../../Base/Command");
-const YouTube = require("simple-youtube-api");
 
 class Play extends Command {
   constructor(client) {
     super(client, {
       name: "play",
-      aliases: ["p"],
-      usage: ["play <songname>", "play <songURL>", "play <song-id>"],
-      description: "Plays a song."
+      description: "Play music in a voice channel from youtube.",
+      aliases: ["player", "youtube"],
+      usage: ["play <query/url>"],
+      permissions: []
     });
   }
 
   async execute(message, args, Discord) {
-    const youtube = new YouTube(this.client.config.youtube);
+   
 
-    const query = args.join(" ");
-    const url = args[0] ? args[0].replace(/<(.+)>/g, "$1") : "";
-    if (!message.member.voice.channel)
-      return message.channel.send(
-        "❌ | Can you try again by joining voice channel?"
-      );
-    if (!query)
-      return message.channel.send(
-        "❌ | Can you try again by providing search term/url/id?"
-      );
-    if (
-      !message.member.voice.channel
-        .permissionsFor(this.client.user)
-        .has("CONNECT")
-    )
-      return message.channel.send(
-        "❌ | Ahoy, looks like I can't join your voice channel!"
-      );
-    if (
-      !message.member.voice.channel
-        .permissionsFor(this.client.user)
-        .has("SPEAK")
-    )
-      return message.channel.send(
-        "❌ | Ahoy, looks like I can't speak on your voice channel!"
-      );
-    const voiceChannel = message.member.voice.channel;
-    if (!message.guild.me.voice.channel)
-      await message.member.voice.channel.join();
-    if (voiceChannel && message.guild.me.voice.channel.id !== voiceChannel.id)
-      return message.channel.send(`❌ | You are not in my voice channel!`);
-    if (url.match(/^https?:\/\/(www.youtube.com|youtube.com)\/playlist(.*)$/)) {
-      message.channel.send("🔍 Searching playlist `" + query + "`").then(msg => {
-      msg.delete(1000);
-    });
-      const playlist = await youtube.getPlaylist(url);
-      const videos = await playlist.getVideos();
-      let video2;
-      for (const video of Object.values(videos)) {
-        if (youtube.getVideoByID(video.id)) {
-          video2 = await youtube.getVideoByID(video.id);
-          await this.client.player.handleVideo(
-            video2,
-            message,
-            voiceChannel,
-            true,
-            0
-          );
-        } else return;
-      }
-      return;
-    } else {
-      try {
-        var video = await youtube.getVideo(url);
-      } catch (error) {
-        try {
-          var videos = await youtube.searchVideos(query, 3);
-          let index = 0;
-          message.channel.send("🔍 Searching query `" + query + "`").then(msg => {
-            msg.delete(1000);
-          });
-          var video = await youtube.getVideoByID(videos[0].id);
-        } catch (err) {
-          console.error(err.message);
-          return message.channel.send("❌ | No result found.");
+    //If the member is not in a voice channel
+    if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel, please join one !`);
+
+    //If no music is provided
+    if (!args[0]) return message.channel.send(`Please enter a query !`);
+
+    const aTrackIsAlreadyPlaying = this.client.player.isPlaying(message.guild.id);
+
+        // If there's already a track playing 
+        if(aTrackIsAlreadyPlaying){
+
+            // Add the track to the queue
+            try {
+            const result = await this.client.player.addToQueue(message.guild.id, args.join(" ")).catch(() => {});
+            if(!result) return message.channel.send(`Oops i have found nothing for you query, please try again with more pertinent words`);
+
+            if(result.type === 'playlist'){
+                message.channel.send(`${result.tracks.length} songs added to the queue !`);
+            } else {
+                message.channel.send(`${result.name} added to the queue !`);
+            }
+        } catch(e) {
+            console.log(e)
+            return message.channel.send("Oops, it's seem i have got a error, the error is logged !")
         }
-      }
-      return this.client.player.handleVideo(video, message, voiceChannel, false, 0);
+        } else {
+
+            // Else, play the song
+            try {
+            const result = await this.client.player.play(message.member.voice.channel, args.join(" ")).catch(() => {});
+            if(!result) return message.channel.send(`Oops i have found nothing for you query, please try again with more pertinent words`)
+
+            if(result.type === 'playlist'){
+                message.channel.send(`${result.tracks.length} songs added to the queue!\nCurrently playing ${result.tracks[0].name} !`);
+            } else {
+                message.channel.send(`Now playing \`${result.name}\` !`);
+            }
+
+            const queue = this.client.player.getQueue(message.guild.id)
+            .on('end', () => {
+                message.channel.send(`The queue just ended !`);
+            })
+            .on('trackChanged', (oldTrack, newTrack) => {
+                message.channel.send(`Now playing \`${newTrack.name}\` !`);
+            })
+            .on('channelEmpty', () => {
+                message.channel.send(`Stop playing because the channel is empty !`);
+            });
+
+        } catch(e) {
+            return message.channel.send("Oops, it's seem i have got a error, the error is logged !")
+        }
+        }
     }
+
+
+
   }
-}
+
 
 module.exports = Play;

@@ -1,25 +1,7 @@
 const { Client, Collection } = require("discord.js");
 const fs = require("fs");
-const player = require("./modules/Music");
 
-
-if(process.env.PROJECT_DOMAIN){
-
-const app = require("express")();
-const http = require("http");
-const server = http.createServer(app);
-app.listen(process.env.PORT);
-
-
-setInterval(() => {
-  http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-}, 280000);
-
-app.get("/", (rq, rs) => {
-  return rs.status(200).send("pong?");
-});
-
-}
+const { Player } = require("discord-player");
 
 class Dancefloor extends Client {
   /**
@@ -35,8 +17,7 @@ class Dancefloor extends Client {
     this.config = require("./config");
     this.admin = this.config.admin;
     this.db = require("quick.db");
-    this.queue = new Map();
-    this.player = new player(this);
+
   }
 
   /**
@@ -118,7 +99,12 @@ class Dancefloor extends Client {
   }
 }
 
-const client = new P74Y({ disableEveryone: true });
+const client = new Dancefloor({ disableEveryone: true });
+const player = new Player(client);
+
+client.player = player;
+
+
 
 async function init() {
   // commands
@@ -176,21 +162,6 @@ String.prototype.toProperCase = function() {
   });
 };
 
-Array.prototype.random = function() {
-  return this[Math.floor(Math.random() * this.length)];
-};
-
-Array.prototype.shuffle = function() {
-  for (let i = this.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [this[i], this[j]] = [this[j], this[i]];
-  }
-  return this;
-};
-
-Array.prototype.insert = function(index, item) {
-  this.splice(index, 0, item);
-};
 
 process.on("uncaughtException", err => {
   console.error("Uncaught Exception: ", err);

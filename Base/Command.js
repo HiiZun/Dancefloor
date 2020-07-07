@@ -4,7 +4,7 @@ class Command {
   /**
    *
    * @param {Client} client Discord Client
-   * @param {Object} param1 command conf
+   * @param {Object} param1 the command conf
    */
   constructor(
     client,

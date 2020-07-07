@@ -4,38 +4,29 @@ class Queue extends Command {
   constructor(client) {
     super(client, {
       name: "queue",
-      description: "View current queue.",
-      aliases: ["q"],
-      usage: ["queue"]
+      description: "get the waiting queue.",
+      aliases: ["list", "q"],
+      usage: ["queue"],
+      permissions: []
     });
   }
 
   async execute(message, args, Discord) {
-    let queue = this.client.queue.get(message.guild.id);
-    if (!queue) return message.channel.send("❌ | I'm not playing anything?");
-    if (!message.member.voice.channel)
-      return message.channel.send(`❌ | You're not in a voice channel!`);
-    if (
-      queue &&
-      message.guild.me.voice.channel.id !== message.member.voice.channel.id
-    )
-      return message.channel.send(`❌ | You're not in my voice channel!`);
-    let songs = queue.songs;
-    let songsa = songs
-      .slice(0, 20)
-      .map(
-        m =>
-          `${songs.indexOf(m) + 1}. ` +
-          Discord.Util.escapeMarkdown(
-            m.title.length > 30 ? m.title.substr(0, 30) + "..." : m.title
-          )
-      );
-    const embed = new Discord.MessageEmbed()
-      .setAuthor(`Queue`, message.guild.iconURL())
-      .setDescription(songsa.join("\n"))
-      .setFooter(`Showing ${songs.length}/${songsa.length} Songs`)
-      .setColor("#FFFF00");
-    return message.channel.send(embed);
+ if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
+
+ //Get queue
+ const queue = this.client.player.getQueue(message.guild.id);
+
+ //If there's no music
+ if(!queue) return message.channel.send(`I'm not playing any music, please make me playing something with before !`);
+
+ //Message
+ message.channel.send(`**Server queue**\nCurrent - ${queue.playing.name} | ${queue.playing.author}\n`+
+ (
+     queue.tracks.map((track, i) => {
+         return `#${i+1} - ${track.name} | ${track.author}`
+     }).join('\n')
+ ), { split:true });
   }
 }
 
