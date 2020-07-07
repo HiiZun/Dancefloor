@@ -22,14 +22,14 @@ class Eval extends Command {
       const embed = new Discord.MessageEmbed()
         .setAuthor("EVALUATION", message.author.displayAvatarURL)
         .setColor(123456)
-        .setTitle(`📥INPUT📥`)
+        .setTitle(`📥 IN 📥`)
         .setDescription(`\`\`\`js\n${code}\`\`\``)
         .addField(
-          `📤OUTPUT📤`,
+          `📤 OUT 📤`,
           `\`\`\`js\n${this.client.cleanText(evaled)}\`\`\``,
           false
         )
-        .addField(`📄TYPE📄`, `\`\`\`js\n${typeof evalCode}\`\`\``, false)
+        .addField(`📄 TYPE 📄`, `\`\`\`js\n${typeof evalCode}\`\`\``, false)
         .setFooter("OUTCOME: SUCCESS!", this.client.user.displayAvatarURL)
         .setTimestamp();
       return message.channel.send(embed);
@@ -37,9 +37,9 @@ class Eval extends Command {
       const embed = new Discord.MessageEmbed()
         .setAuthor("EVALUATION", message.author.displayAvatarURL)
         .setColor("#FF0000")
-        .setTitle(`📥INPUT📥`)
+        .setTitle(`📥 IN 📥`)
         .setDescription(`\`\`\`js\n${code}\`\`\``)
-        .addField(`📤OUTPUT📤`, `\`\`\`js\n${this.client.cleanText(err)}\`\`\``)
+        .addField(`📤 OUT 📤`, `\`\`\`js\n${this.client.cleanText(err)}\`\`\``)
         .setFooter("OUTCOME: ERROR!", this.client.user.displayAvatarURL)
         .setTimestamp();
       return message.channel.send(embed);

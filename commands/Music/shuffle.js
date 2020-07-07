@@ -5,25 +5,24 @@ class Shuffle extends Command {
     super(client, {
       name: "shuffle",
       description: "Shuffle the queue.",
-      aliases: [],
-      usage: ["shuffle"]
+      aliases: ["shuf"],
+      usage: ["shuffle"],
+      permissions: []
     });
   }
 
   async execute(message, args, Discord) {
-    let queue = this.client.queue.get(message.guild.id);
-    if (!queue) return message.channel.send("❌ | I'm not playing anything?");
-    if (!message.member.voice.channel)
-      return message.channel.send(`❌ | You're not in a voice channel!`);
-    if (
-      queue &&
-      message.guild.me.voice.channel.id !== message.member.voice.channel.id
-    )
-      return message.channel.send(`❌ | You're not in my voice channel!`);
-    if (queue.songs.length < 3)
-      return message.channel.send("❌ | You can't shuffle less than 3 songs.");
-    queue.songs = queue.songs.shuffle();
-    return message.channel.send("✅ | Queue shuffled!");
+    //If the member isn't in a voice channel
+    if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
+
+    //If there's no music
+    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
+
+
+    this.client.player.shuffle(message.guild.id);
+
+    //Message
+    return message.channel.send(`Queue shuffled !`);
   }
 }
 

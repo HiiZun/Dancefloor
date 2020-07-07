@@ -1,7 +1,7 @@
 {
   "name": "dancefloor",
-  "version": "0.0.0",
-  "description": "A powerful discord music bot, based on P74Y which will make more updates and more maintainance to make the code better and clean !",
+  "version": "0.0.1",
+  "description": "A powerful discord music bot, based on discord-player. Completly open source !",
   "main": "index.js",
   "scripts": {
     "test": "node index.js",
@@ -12,7 +12,6 @@
     "url": "git+https://github.com/HiiZun/Dancefloor.git"
   },
   "keywords": [
-    "p74ybot",
     "discord",
     "discord.js",
     "musicbot",
@@ -22,8 +21,7 @@
     "powerful"
   ],
   "contributors": [
-    "HiiZun <hiiun@protonmail.com> (http://hiizun.codes/)",
-    "Snowflake107 (http://snowflakedev.xyz/)"
+    "HiiZun <hiiun@protonmail.com> (http://hiizun.codes/)"
   ],
   "license": "MIT",
   "bugs": {
@@ -36,19 +34,20 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
     "chalk": "^4.0.0",
+    "discord-player": "^2.0.0",
     "discord-ytdl-core": "^2.0.1",
-    "discord.js": "github:Snowflake107/discord.js",
+    "discord.js": "12.2.0",
     "express": "^4.17.1",
     "hastebin-gen": "^2.0.5",
     "moment": "^2.25.3",
     "moment-duration-format": "^2.3.2",
     "node-fetch": "^2.6.0",
+    "quick.db": "^7.1.1",
     "simple-youtube-api": "^5.2.1",
-    "snekfetch": "^4.0.4",
-    "quick.db": "^7.1.1"
+    "snekfetch": "^4.0.4"
   },
   "engines": {
     "node": "12.x",
-    "npm": "6.x"
+    "npm": "5.5.x"
   }
 }

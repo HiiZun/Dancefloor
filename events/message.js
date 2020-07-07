@@ -9,7 +9,7 @@ module.exports = class {
         if (!message.guild || message.author.bot) return;
         if (!message.channel.permissionsFor(message.guild.me).missing("SEND_MESSAGES")) return;
         if (!message.channel.permissionsFor(this.client.user).has("SEND_MESSAGES")) return;
-        const prefixes = this.client.db.fetch(`prefix_${message.guild.id}`) ? [this.client.db.fetch(`prefix_${message.guild.id}`), `<@${this.client.user.id}>`, `<@!${this.client.user.id}>`] : ['p?', 'P?', `<@${this.client.user.id}>`, `<@!${this.client.user.id}>`];
+        const prefixes = this.client.db.fetch(`prefix_${message.guild.id}`) ? [this.client.db.fetch(`prefix_${message.guild.id}`), `<@${this.client.user.id}>`, `<@!${this.client.user.id}>`] : ['d!', 'd!', `<@${this.client.user.id}>`, `<@!${this.client.user.id}>`];
         let prefix = false;
         for (const thisPrefix of prefixes) {
             if (message.content.startsWith(thisPrefix)) prefix = thisPrefix;
@@ -18,7 +18,7 @@ module.exports = class {
         this.client.prefix = prefix;
         const args = message.content.slice(prefix.length).trim().split(" ");
         const command = args.shift().toLowerCase();
-        if (message.guild && !message.member) await message.guild.fetchMember(message.author);
+        if (message.guild && !message.member) await message.guild.member(message.author);
         const cmd = this.client.commands.get(command) || this.client.commands.get(this.client.aliases.get(command));
         if (!cmd) return;
         if (cmd.help.category === "Developer" && !this.client.config.admin.includes(message.author.id)) return message.channel.send("nope...");

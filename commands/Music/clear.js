@@ -1,12 +1,12 @@
 const Command = require("../../Base/Command");
 
-class Pause extends Command {
+class Clear extends Command {
   constructor(client) {
     super(client, {
-      name: "pause",
-      description: "Pause the current playing music.",
-      aliases: [],
-      usage: ["pause"],
+      name: "clear",
+      description: "Clear the queue, and end the playing.",
+      aliases: ["clear-queue", "clearqueue", "queueclear", "clr", "c"],
+      usage: ["clear"],
       permissions: []
     });
   }
@@ -14,14 +14,12 @@ class Pause extends Command {
   async execute(message, args, Discord) {
     if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
 
-    //If there's no music
     if(!client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
 
-    const track = await client.player.pause(message.guild.id);
+    client.player.clearQueue(message.guild.id);
 
-    //Message
-    message.channel.send(`Song ${track.name} paused !`);
+    message.channel.send(`Queue cleared !`);
   }
 }
 
-module.exports = Pause;
+module.exports = Clear;
