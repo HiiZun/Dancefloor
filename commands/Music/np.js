@@ -16,12 +16,12 @@ class Np extends Command {
     if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
 
     //If there's no music
-    if(!client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
+    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
 
-    const song = await client.player.nowPlaying(message.guild.id);
+    const song = await this.client.player.nowPlaying(message.guild.id);
 
     //Message
-    message.channel.send(`Currently playing \`${song.name}\`\nProgression : [${client.player.createProgressBar(message.guild.id)}]`);
+    message.channel.send(`Currently playing \`${song.name}\`\nProgression : [${this.client.player.createProgressBar(message.guild.id)}]`);
 
   }
 }

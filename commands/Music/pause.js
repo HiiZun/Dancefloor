@@ -15,9 +15,9 @@ class Pause extends Command {
     if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
 
     //If there's no music
-    if(!client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
+    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
 
-    const track = await client.player.pause(message.guild.id);
+    const track = await this.client.player.pause(message.guild.id);
 
     //Message
     message.channel.send(`Song ${track.name} paused !`);

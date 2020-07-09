@@ -17,7 +17,7 @@ class Volume extends Command {
     if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
 
     //If there's no music
-    if(!client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
+    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
 
     //Args
     if(!args[0]) return message.channel.send(`Please enter a number bethween 0 and 100 !`);
@@ -34,7 +34,7 @@ class Volume extends Command {
     if(message.content.includes(".")) return message.channel.send(`Please enter a valid number bethween 0 and 100 !`)
 
     //Set volume
-    client.player.setVolume(message.guild.id, parseInt(args.join(" ")));
+    this.client.player.setVolume(message.guild.id, parseInt(args.join(" ")));
 
     //Message
     message.channel.send(`Volume set to \`${args.join(" ")}%\` !`);

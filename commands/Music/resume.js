@@ -15,7 +15,7 @@ class Resume extends Command {
     if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
 
     //Get song
-    const song = await client.player.resume(message.guild.id);
+    const song = await this.client.player.resume(message.guild.id);
 
     //If there's no music
     if(!song) return message.channel.send(`No songs currently playing !`);

@@ -15,15 +15,15 @@ class Loop extends Command {
     if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
 
     //If there's no music
-    if(!client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
+    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
 
     //Repeat mode
-    const repeatMode = client.player.getQueue(message.guild.id).repeatMode;
+    const repeatMode = this.client.player.getQueue(message.guild.id).repeatMode;
 
     //If the mode is enabled
     if(repeatMode) {
 
-        client.player.setRepeatMode(message.guild.id, false);
+      this.client.player.setRepeatMode(message.guild.id, false);
 
         //Message
         return message.channel.send(`Repeat mode disabled !`);
@@ -31,7 +31,7 @@ class Loop extends Command {
     //If the mode is disabled
     } else {
 
-        client.player.setRepeatMode(message.guild.id, true);
+      this.client.player.setRepeatMode(message.guild.id, true);
 
         //Message
         return message.channel.send(`Repeat mode enabled !`);
