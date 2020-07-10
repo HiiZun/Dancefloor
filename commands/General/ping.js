@@ -19,7 +19,7 @@ class Ping extends Command {
       const embed = new Discord.MessageEmbed()
         .addField("Bot Latency", `${latency}ms`)
         .addField("API Latency", `${api}ms`)
-        .setColor("BLURPLE")
+        .setColor("BLUE")
         .setFooter(
           `Requested by: ${message.author.tag}`,
           message.author.displayAvatarURL({ dynamic: true })

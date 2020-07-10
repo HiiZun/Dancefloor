@@ -12,13 +12,13 @@ class Clear extends Command {
   }
 
   async execute(message, args, Discord) {
-    if(!message.member.voice.channel) return message.channel.send(`You're not in a voice channel !`);
+    if(!message.member.voice.channel) return message.channel.send(`${this.client.emojis.no} | You're not in a voice channel !`);
 
-    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`No music playing on this server !`);
+    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`${this.client.emojis.no} | No music playing on this server !`);
 
     this.client.player.clearQueue(message.guild.id);
 
-    message.channel.send(`Queue cleared !`);
+    message.channel.send(`${this.client.emojis.yes} | Queue cleared !`);
   }
 }
 

@@ -49,7 +49,7 @@ class Help extends Command {
             .join(", ")
         )
 
-        .setColor("#FFFF00");
+        .setColor("BLUE");
       return message.channel.send(embed);
     } else {
       let cmd = this.client.getCommand(args[0]);

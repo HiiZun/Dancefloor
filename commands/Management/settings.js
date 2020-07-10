@@ -48,7 +48,7 @@ class Config extends Command {
               ? this.client.db.fetch(`prefix_${message.guild.id}`)
               : this.client.prefix
           )
-          .setColor("#FFFF00")
+          .setColor("BLUE")
           .setTimestamp()
           .setFooter(
             `Requested by: ${message.member.user.tag}`,
