@@ -12,10 +12,10 @@ class Loop extends Command {
   }
 
   async execute(message, args, Discord) {
-    if(!message.member.voice.channel) return message.channel.send(`${this.client.emojis.no} | You're not in a voice channel !`);
+    if(!message.member.voice.channel) return message.channel.send(`${this.client.msgemojis.no} | You're not in a voice channel !`);
 
     //If there's no music
-    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`${this.client.emojis.no} | No music playing on this server !`);
+    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`${this.client.msgemojis.no} | No music playing on this server !`);
 
     //Repeat mode
     const repeatMode = this.client.player.getQueue(message.guild.id).repeatMode;
@@ -26,7 +26,7 @@ class Loop extends Command {
       this.client.player.setRepeatMode(message.guild.id, false);
 
         //Message
-        return message.channel.send(`${this.client.emojis.yes} | Repeat mode disabled !`);
+        return message.channel.send(`${this.client.msgemojis.yes} | Repeat mode disabled !`);
 
     //If the mode is disabled
     } else {
@@ -34,7 +34,7 @@ class Loop extends Command {
       this.client.player.setRepeatMode(message.guild.id, true);
 
         //Message
-        return message.channel.send(`${this.client.emojis.yess} | Repeat mode enabled !`);
+        return message.channel.send(`${this.client.msgemojis.yess} | Repeat mode enabled !`);
 
     }
   }

@@ -24,7 +24,6 @@ class Dancefloor extends Client {
     super(options);
     this.commands = new Collection();
     this.aliases = new Collection();
-    this.emojis = require("./modules/emojis.json")
     this.wait = require("util").promisify(setTimeout);
     this.logger = require("./modules/Logger");
     this.admin = process.env.OWNERS;
@@ -114,6 +113,7 @@ class Dancefloor extends Client {
 const client = new Dancefloor({ disableEveryone: true });
 const player = new Player(client);
 
+client.msgemojis = require("./modules/emojis.json");
 client.player = player;
 
 
