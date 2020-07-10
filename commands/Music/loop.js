@@ -20,20 +20,16 @@ class Loop extends Command {
     //Repeat mode
     const repeatMode = this.client.player.getQueue(message.guild.id).repeatMode;
 
-    //If the mode is enabled
     if(repeatMode) {
 
       this.client.player.setRepeatMode(message.guild.id, false);
 
-        //Message
         return message.channel.send(`${this.client.msgemojis.yes} | Repeat mode disabled !`);
 
-    //If the mode is disabled
     } else {
 
       this.client.player.setRepeatMode(message.guild.id, true);
 
-        //Message
         return message.channel.send(`${this.client.msgemojis.yess} | Repeat mode enabled !`);
 
     }

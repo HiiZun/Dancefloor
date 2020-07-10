@@ -20,10 +20,8 @@ class Play extends Command {
 
     const aTrackIsAlreadyPlaying = this.client.player.isPlaying(message.guild.id);
 
-        // If there's already a track playing 
         if(aTrackIsAlreadyPlaying){
 
-            // Add the track to the queue
             try {
             const result = await this.client.player.addToQueue(message.guild.id, args.join(" ")).catch(() => {});
             if(!result) return message.channel.send(`${this.client.msgemojis.no} | Oops i have found nothing for you query, please try again with more pertinent words`);
@@ -34,12 +32,11 @@ class Play extends Command {
                 message.channel.send(`${this.client.msgemojis.yes} | \`${result.name}\` added to the queue !`);
             }
         } catch(e) {
-            console.log(e)
+            this.client.logger.log(e, "error")
             return message.channel.send(`${this.client.msgemojis.no} | Oops, it's seem i have got a error, the error is logged !`)
         }
         } else {
 
-            // Else, play the song
             try {
             const result = await this.client.player.play(message.member.voice.channel, args.join(" ")).catch(() => {});
             if(!result) return message.channel.send(`${this.client.msgemojis.no} | Oops i have found nothing for you query, please try again with more pertinent words`)
@@ -62,7 +59,7 @@ class Play extends Command {
             });
 
         } catch(e) {
-            console.log(e)
+            this.client.logger.log(e, "error")
             return message.channel.send(`${this.client.msgemojis.no} | Oops, it's seem i have got a error, the error is logged !`)
         }
         }

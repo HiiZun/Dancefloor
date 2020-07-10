@@ -17,32 +17,22 @@ class Help extends Command {
         .setAuthor(`Total Commands: ${this.client.commands.size}`)
         .setTitle(`Commands`)
         .setThumbnail(this.client.user.displayAvatarURL({ format: "png" }))
-        .setDescription(
-          `Use **${this.client.prefix}help <command>** for more info.`
-        )
         .addField(
-          `General [${
-            this.client.commands.filter(c => c.help.category === "General").size
-          }]`,
+          `Core (${this.client.commands.filter(c => c.help.category === "Core").size})`,
           this.client.commands
-            .filter(c => c.help.category === "General")
+            .filter(c => c.help.category === "Core")
             .map(m => `\`${m.help.name}\``)
             .join(", ")
         )
         .addField(
-          `Management [${
-            this.client.commands.filter(c => c.help.category === "Management")
-              .size
-          }]`,
+          `Configuration (${this.client.commands.filter(c => c.help.category === "Configuration").size})`,
           this.client.commands
-            .filter(c => c.help.category === "Management")
+            .filter(c => c.help.category === "Configuration")
             .map(m => `\`${m.help.name}\``)
             .join(", ")
         )
         .addField(
-          `Music [${
-            this.client.commands.filter(c => c.help.category === "Music").size
-          }]`,
+          `Music (${this.client.commands.filter(c => c.help.category === "Music").size})`,
           this.client.commands
             .filter(c => c.help.category === "Music")
             .map(m => `\`${m.help.name}\``)

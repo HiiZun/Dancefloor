@@ -14,13 +14,10 @@ class Queue extends Command {
   async execute(message, args, Discord) {
  if(!message.member.voice.channel) return message.channel.send(`${this.client.msgemojis.no} | You're not in a voice channel !`);
 
- //Get queue
  const queue = this.client.player.getQueue(message.guild.id);
 
- //If there's no music
  if(!queue) return message.channel.send(`${this.client.msgemojis.no} | I'm not playing any music, please make me playing something with before !`);
 
- //Message
  message.channel.send(`**Server queue**\nCurrent - ${queue.playing.name} | ${queue.playing.author}\n`+
  (
      queue.tracks.map((track, i) => {

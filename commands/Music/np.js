@@ -12,11 +12,9 @@ class Np extends Command {
   }
 
   async execute(message, args, Discord) {
-    //If the member is not in a voice channel
     if(!message.member.voice.channel) return message.channel.send(`${this.client.msgemojis.no} | You're not in a voice channel !`);
 
-    //If there's no music
-    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`${this.client.msgemojis.no} | No music playing on this server !`);
+    if(!this.client.player.isPlaying(message.guild.id)) return message.channel.send(`${this.client.msgemojis.no} | There is no music playing on this server !`);
 
     const song = await this.client.player.nowPlaying(message.guild.id);
 
