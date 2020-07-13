@@ -9,7 +9,7 @@ module.exports = class {
         if (!message.guild || message.author.bot) return;
         if (!message.channel.permissionsFor(message.guild.me).missing("SEND_MESSAGES")) return;
         if (!message.channel.permissionsFor(this.client.user).has("SEND_MESSAGES")) return;
-        const prefixes = this.client.db.fetch(`prefix_${message.guild.id}`) ? [this.client.db.fetch(`prefix_${message.guild.id}`), `<@${this.client.user.id}>`, `<@!${this.client.user.id}>`] : ['d!', 'd!', `<@${this.client.user.id}>`, `<@!${this.client.user.id}>`];
+        const prefixes = this.client.db.fetch(`prefix_${message.guild.id}`) ? [this.client.db.fetch(`prefix_${message.guild.id}`), `<@${this.client.user.id}>`, `<@!${this.client.user.id}>`] : ['d!', 'D!', `<@${this.client.user.id}>`, `<@!${this.client.user.id}>`];
         let prefix = false;
         for (const thisPrefix of prefixes) {
             if (message.content.startsWith(thisPrefix)) prefix = thisPrefix;
@@ -21,7 +21,7 @@ module.exports = class {
         if (message.guild && !message.member) await message.guild.member(message.author);
         const cmd = this.client.commands.get(command) || this.client.commands.get(this.client.aliases.get(command));
         if (!cmd) return;
-        if (cmd.help.category === "Developer" && !process.env.OWNERS.includes(message.author.id)) return message.channel.send("nope...");
+        if (cmd.help.category === "Developer" && !process.env.OWNERS.includes(message.author.id)) return message.channel.send(`${require("../modules/emojis.json").no} You need to be the owner of the bot to do that !`);
         const hook = new Discord.WebhookClient(process.env.LOGGER_ID, process.env.LOGGER_TOKEN);
         const embed = new Discord.MessageEmbed()
             .setTitle("Command Used!")
