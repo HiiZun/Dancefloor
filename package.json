@@ -1,0 +1,42 @@
+{
+  "name": "dancefloor",
+  "version": "0.0.1",
+  "description": "A powerful discord music bot, based on lavalink. Completly open source !",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HiiZun/Dancefloor.git"
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "musicbot",
+    "dancefloor",
+    "opensource",
+    "free",
+    "powerful"
+  ],
+  "contributors": [
+    "HiiZun <hiiun@protonmail.com> (http://hiizun.codes/)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HiiZun/Dancefloor/issues"
+  },
+  "homepage": "https://github.com/HiiZun/Dancefloor#readme",
+  "devDependencies": {
+    "@types/node": "^13.7.0"
+  },
+  "dependencies": {
+    "@lavacord/discord.js": "0.0.7",
+    "discord.js": "^12.3.1",
+    "lavacord": "^1.1.9"
+  },
+  "engines": {
+    "node": "12.x"
+  }
+}
