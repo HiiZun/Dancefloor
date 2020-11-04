@@ -53,7 +53,7 @@ class MusicManager {
                 node: select(this.client, this.startedNodes).id
             });
             if(Array.isArray(song)){
-                message.channel.send(`[Audioserver ${serverQueue.node} 🎶] Importing **${song.length}** videos, please wait...`)
+                message.channel.send(`[Audioserver ${queue.getNode()} 🎶] Importing **${song.length}** videos, please wait...`)
                 for (let i = 0; i < song.length; i++) {
                     const s = song[i];
                     s.requestedBy = message.author
