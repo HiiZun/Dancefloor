@@ -125,7 +125,7 @@ class MusicManager {
                 .setThumbnail(`http://img.youtube.com/vi/${song.info.identifier}/hqdefault.jpg`)
                 .setDescription(`Title: **${song.info.title}**\nBy **${song.info.author}**\nrequested by **${song.requestedBy.tag}**\nAudio Server: **${serverQueue.node}**`)
                 .setColor("GREEN")
-                .setFooter(`requested by ${song.requestedBy.tag}`, song.requestedBy.displayAvatarURL({ dynamic: trye }))
+                .setFooter(`requested by ${song.requestedBy.tag}`, song.requestedBy.displayAvatarURL({ dynamic: true }))
 
             serverQueue.player.volume(serverQueue.volume);
             serverQueue.textChannel.send(npembed);
