@@ -1,8 +1,9 @@
 const { Collection } = require("discord.js");
 const { Manager } = require("@lavacord/discord.js");
-const { Rest } = require("lavacord");
+const fetch = require("node-fetch")
 const { select } = require("./NodeSelector")
 const Queue = require("./Queue");
+const { UV_FS_O_FILEMAP } = require("constants");
 
 /**
  * @class MusicManager
@@ -18,6 +19,11 @@ class MusicManager {
             user: client.user.id,
             shards: client.shard ? client.shard.count : 1
         });
+        this.manager.defaultRegions = {
+            asia: ["sydney", "singapore", "japan", "hongkong"],
+            eu: ["london", "frankfurt", "amsterdam", "russia", "eu-central", "eu-west"],
+            us: ["us-central", "us-west", "us-east", "us-south", "brazil"]
+        };
         this.manager.connect();
         
         this.queue = new Collection();
@@ -39,15 +45,24 @@ class MusicManager {
     async handleVideo(message, voiceChannel, song) {
         if(!this.startedNodes.length) return message.channel.send("Oops there is no audio sending server available !")
         const serverQueue = this.queue.get(message.guild.id);
-        song.requestedBy = message.author;
+
         if (!serverQueue) {
-            console.log(this.startedNodes)
             const queue = new Queue(this.client, {
                 textChannel: message.channel,
                 voiceChannel,
-                node: select(this.client, this.startedNodes)
+                node: select(this.client, this.startedNodes).id
             });
+            if(Array.isArray(song)){
+                message.channel.send(`Importing **${song.length}** videos, please wait...`)
+                for (let i = 0; i < song.length; i++) {
+                    const s = song[i];
+                    s.requestedBy = message.author
+                    queue.songs.push(s)
+                }
+            } else {
+            song.requestedBy = message.author
             queue.songs.push(song);
+            }
             this.queue.set(message.guild.id, queue);
 
             try {
@@ -59,7 +74,7 @@ class MusicManager {
                     selfdeaf: true
                 });
                 queue.setPlayer(player);
-                this.play(message.guild, song);
+                this.play(message.guild, Array.isArray(song) ? song[0] : song);
             } catch (error) {
                 console.error(`I could not join the voice channel: ${error}`);
                 this.queue.delete(message.guild.id);
@@ -67,8 +82,21 @@ class MusicManager {
                 message.channel.send(`I could not join the voice channel: ${error.message}`);
             }
         } else {
+            if(Array.isArray(song)){
+                message.channel.send(`Importing **${song.length}** videos, please wait...`)
+
+                if(song.length + serverQueue.songs.length >= 200) return message.channel.send("Oops you reached the queue's limit (200) !")
+
+                for (let i = 0; i < song.length; i++) {
+                    const s = song[i];
+                    s.requestedBy = message.author
+                    serverQueue.songs.push(s)
+                }
+            } else {
+                if(serverQueue.songs.length + 1 >= 200) return message.channel.send("Oops you reached the queue's limit (200) !")
+            song.requestedBy = message.author
             serverQueue.songs.push(song);
-            message.channel.send(`Successfully added **${song.info.title}** to the queue!`);
+            }
         }
     }
 
@@ -96,9 +124,24 @@ class MusicManager {
     }
 
     async getSongs(query) {
-        const node = this.manager.nodes.get(select(this.client, this.startedNodes));
-        const result = await Rest.load(node, query);
-        return result.tracks;
+        const node = select(this.client, this.startedNodes);
+        const params = new URLSearchParams();
+        const isHttp = /^https?:\/\//.test(query);
+        query = isHttp ? query : `ytsearch: ${query}`;
+        params.append('identifier', query); 
+
+        let res = fetch(`http://${ node.host }:${ node.port }/loadtracks?${params.toString()}`, { 
+            headers: { 
+                Authorization: node.password 
+            } 
+        }).then(res => res.json())
+        .catch(err => {
+          console.error(err)
+          return null
+        })
+
+        return res;
+
     }
 }
 

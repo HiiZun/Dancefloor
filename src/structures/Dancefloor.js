@@ -20,6 +20,7 @@ class Dancefloor extends Client {
         .on("ready", () => {
             this.musicManager = new MusicManager(this);
             console.log("Bot is online!");
+            
         })
         .on("message", async message => {
             if (message.author.bot || !message.guild) return;
