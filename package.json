@@ -35,7 +35,9 @@
     "@lavacord/discord.js": "0.0.7",
     "discord.js": "^12.3.1",
     "lavacord": "^1.1.9",
-    "node-fetch": "^2.6.1"
+    "ms": "^2.1.2",
+    "node-fetch": "^2.6.1",
+    "ytsr": "^1.0.4"
   },
   "engines": {
     "node": "12.x"

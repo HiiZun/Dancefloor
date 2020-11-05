@@ -3,7 +3,7 @@ const { Manager } = require("@lavacord/discord.js");
 const fetch = require("node-fetch")
 const { select } = require("./NodeSelector")
 const Queue = require("./Queue");
-const { UV_FS_O_FILEMAP } = require("constants");
+const ms = require("ms")
 
 /**
  * @class MusicManager
@@ -77,13 +77,13 @@ class MusicManager {
                 this.play(message.guild, Array.isArray(song) ? song[0] : song);
             } catch (error) {
                 console.error(`[Audioserver ${queue.getNode()} 🎶] I could not join the voice channel: ${error}`);
-                message.channel.send(`[Audioserver ${queue.getNode()} 🎶] I could not join the voice channel: ${error.message}`);
+                message.channel.send(`[Audioserver ${serverQueue.node} 🎶] I could not join the voice channel: ${error.message}`);
                 this.queue.delete(message.guild.id);
                 this.manager.leave(message.guild.id);
             }
         } else {
             if(Array.isArray(song)){
-                message.channel.send(`[Audioserver ${serverQueue.node} 🎶] Importing **${song.length}** videos, please wait...`)
+                message.channel.send(`Importing **${song.length}** videos, please wait...`)
 
                 if(song.length + serverQueue.songs.length >= 200) return message.channel.send("Oops you reached the queue's limit (200) !")
 
@@ -97,6 +97,8 @@ class MusicManager {
             song.requestedBy = message.author
             serverQueue.songs.push(song);
             }
+
+            message.channel.send(`Added ${Array.isArray(song) ? `**${song.length}** videos to the queue` : `**${song.info.title}** by **${song.info.author}**`}`)
         }
     }
 
@@ -112,18 +114,18 @@ class MusicManager {
                 .once("error", console.error)
                 .once("end", data => {
                     if (data.reason === "REPLACED") return;
-                    const shiffed = serverQueue.songs.shift();
-                    if (serverQueue.loop === true) {
-                        serverQueue.songs.push(shiffed);
+                    if (!serverQueue.loop) {
+                        let queue = serverQueue.songs
+                        queue.shift();
+                        serverQueue.songs = queue;
                     }
                     this.play(guild, serverQueue.songs[0]);
                 });
-                console.log(song)
                 let npembed = new MessageEmbed()
                 .setTitle("Now Playing")
                 .setURL(song.info.uri)
                 .setThumbnail(`http://img.youtube.com/vi/${song.info.identifier}/hqdefault.jpg`)
-                .setDescription(`Title: **${song.info.title}**\nBy **${song.info.author}**\nrequested by **${song.requestedBy.tag}**\nAudio Server: **${serverQueue.node}**`)
+                .setDescription(`Title: **${song.info.title}** ${song.info.isStream ? "**[🔴 Live]**" : ""}\nBy **${song.info.author}**\nrequested by **${song.requestedBy.tag}**\nAudio Server: **${serverQueue.node}**\nDuration: **${` ${song.info.isStream ? "In live since " : ""} ${ms(song.info.length, { long: true })}`}**`)
                 .setColor("GREEN")
                 .setFooter(`requested by ${song.requestedBy.tag}`, song.requestedBy.displayAvatarURL({ dynamic: true }))
 
