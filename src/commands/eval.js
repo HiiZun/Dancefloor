@@ -1,7 +1,7 @@
 module.exports = {
     name: "eval",
     run: async (client, message, args) => {
-        if (message.author.id !== client.config.owner) return;
+        if (!client.config.owners.includes(message.author.id)) return;
         if (args.join(" ").startsWith("exec") || args.join(" ").startsWith("--exec") || args.join(" ").startsWith("-ex")) {
         const { exec } = require("child_process");
         exec(args.slice(1).join(" "), (err, stdout, stderr) => {
