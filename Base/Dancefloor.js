@@ -8,9 +8,11 @@ class Client extends DiscordClient {
 
         this.commands = new Collection();
         this.aliases = new Collection();
-        this.config = require("../config");
+        this.logger = require("./Logger");
+        this.config = require("../config.js");
         this.commandsDir = __dirname + "/../commands";
         this.eventsDir = __dirname + "/../events";
+        this.musicManager = null;
     }
 
     registerCommands() {
@@ -28,7 +30,7 @@ class Client extends DiscordClient {
                         prop.help.category = category;
                         prop.location = `${this.commandsDir}/${category}/${cmd}`;
 
-                        console.log(`Loaded command ${cmd}...`);
+                        this.logger.log(`Loaded command ${prop.help.name}`, `cmd`)
                         this.commands.set(prop.help.name, prop);
                         prop.help.aliases.forEach(alias => this.aliases.set(alias, prop.help.name));
                     });
@@ -46,7 +48,7 @@ class Client extends DiscordClient {
                 const ev = new prop(this);
                 const eventName = event.split(".")[0];
 
-                console.log(`Loading event ${eventName}...`);
+                this.logger.log(`Loading event ${eventName}`, `log`)
                 this.on(eventName, (...args) => ev.run(...args));
                 delete require.cache[require.resolve(`${this.eventsDir}/${event}`)];
             });
