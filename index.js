@@ -1,10 +1,4 @@
-////////////////////////////////////////////
-/////         Create Discord App       /////
-////////////////////////////////////////////
+const Dancefloor = require("./Base/Dancefloor");
+const client = new Dancefloor();
 
-require("dotenv").config();
-
-const Client = require("./Base/Client");
-const client = new Client();
-
-client.login(client.config.TOKEN);
+client.login(client.config.token);

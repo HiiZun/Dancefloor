@@ -13,7 +13,12 @@
         "nodemon": "^2.0.6"
     },
     "dependencies": {
+        "@lavacord/discord.js": "^0.0.7",
         "discord.js": "^12.4.1",
-        "dotenv": "^8.2.0"
+        "dotenv": "^8.2.0",
+        "lavacord": "^1.1.9",
+        "ms": "^2.1.2",
+        "node-fetch": "^2.6.1",
+        "ytsr": "^1.0.4"
     }
 }
