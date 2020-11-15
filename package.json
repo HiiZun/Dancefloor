@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/HiiZun/Dancefloor#readme",
   "devDependencies": {
-    "@types/node": ">=^13.7.0"
+    "@types/node": "^13.7.0"
   },
   "dependencies": {
     "@lavacord/discord.js": "0.0.7",
