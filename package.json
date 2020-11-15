@@ -1,13 +1,13 @@
 {
-    "name": "discord-bot",
+    "name": "dancefloor",
     "version": "1.0.0",
-    "description": "Simple discord bot created with create-discord-app",
+    "description": "A powerful discord music bot made to be faster as fire !",
     "main": "index.js",
     "scripts": {
         "start": "node .",
         "dev": "nodemon ."
     },
-    "author": "",
+    "author": "HiiZun",
     "license": "MIT",
     "devDependencies": {
         "nodemon": "^2.0.6"
