@@ -20,6 +20,17 @@ class Dancefloor extends Client {
         .on("ready", () => {
             this.musicManager = new MusicManager(this);
             console.log("Bot is online!");
+            this.user.setActivity({
+                name: `2 Brothers on the 4th floor • Playing on ${this.musicManager.queue.size||0} servers • ${this.musicManager.startedNodes.length||0} Audio Nodes`,
+                type: "LISTENING"
+            })
+
+            this.setInterval(() => {
+                this.user.setActivity({
+                    name: `2 Brothers on the 4th floor • Playing on ${this.musicManager.queue.size||0} servers • ${this.musicManager.startedNodes.length||0} Audio Nodes`,
+                    type: "LISTENING"
+                })
+            }, 1 * 60 * 1000)
             
         })
         .on("message", async message => {

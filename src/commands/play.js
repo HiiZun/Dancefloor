@@ -13,10 +13,10 @@ module.exports = {
                 startPlaying(song.tracks[0])
                 break;
             case "NO_MATCHES":
-                error("there is no matching video")
+                error("there is no matching video with your query")
                 break;
             case "LOAD_FAILED":
-                error("failed to load")
+                error("failed to load the track")
                 break;
             case "PLAYLIST_LOADED":
                 let selected = song.playlistInfo.selectedTrack;
