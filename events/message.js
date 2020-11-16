@@ -7,7 +7,7 @@ class Message {
     async run(message) {
         if (message.author.bot) return;
 
-        const prefix = this.client.config.PREFIX;
+        const prefix = this.client.config.prefix;
 
         if (message.content.indexOf(prefix) !== 0) return;
 
@@ -17,8 +17,13 @@ class Message {
         const command = this.client.getCommand(cmd);
         if (!command) return;
 
+        if(command.help.category === "Owner" && !this.client.config.owners.includes(message.author.id)){
+            return message.channel.send("Hey ! This command is only allowed to bot developers")
+        }
+
         try {
             await command.run(message, args);
+            this.client.logger.log(`${message.author.tag} ran the command ${command.name}`, 'cmd')
         } catch(e) {
             console.error(e);
             return message.channel.send(`Something went wrong while executing command "**${cmd}**"!`);
