@@ -52,7 +52,7 @@ class Help extends Command {
 
 		commands.forEach((command) => {
 			if(!categories.includes(command.help.category)){
-				if(command.help.category === "Owner" && this.client.config.owners.includes(message.author.id)){
+				if(command.help.category === "Owner" && !this.client.config.owners.includes(message.author.id)){
 					return;
 				}
 				categories.push(command.help.category);
@@ -61,8 +61,9 @@ class Help extends Command {
 
 
 		const embed = new Discord.MessageEmbed()
-			.setDescription("Help - Dancefloor")
+			.setDescription(`**Help - Dancefloor**\nYou can find **${commands.size||0}** commands in **${categories.length||0}** categories`)
 			.setColor("BLUE")
+			.setThumbnail(this.client.user.displayAvatarURL({ dynamic: true }))
 		categories.sort().forEach((cat) => {
 			const tCommands = commands.filter((cmd) => cmd.help.category === cat);
 			embed.addField(cat+" - ("+tCommands.size+")", tCommands.map((cmd) => "`"+cmd.help.name+"`").join(", "));
