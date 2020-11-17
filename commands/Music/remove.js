@@ -30,7 +30,6 @@ class Remove extends Command {
 
         serverQueue.songs = serverQueue.songs.filter(s => serverQueue.songs.indexOf(s) != selection)
 
-        console.log(serverQueue.songs)
 
     } catch (e) {
         message.channel.send(`An error occured: ${e.message}.`);
