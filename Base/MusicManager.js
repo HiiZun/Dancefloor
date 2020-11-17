@@ -98,14 +98,14 @@ class MusicManager {
             serverQueue.songs.push(song);
             }
 
-            message.channel.send(`Added ${Array.isArray(song) ? `**${song.length}** videos to the queue` : `**${song.info.title}** by **${song.info.author}**`}`)
+            message.channel.send(`Added ${Array.isArray(song) ? `**${song.length}** videos to the queue` : `**${song.info.title||"none"}** by **${song.info.author||"none"}**`}`)
         }
     }
 
     play(guild, song) {
         const serverQueue = this.queue.get(guild.id);
         if (!song) {
-            serverQueue.textChannel.send("Queue is empty! Leaving voice channel..");
+            serverQueue.textChannel.send("Queue is empty ! Leaving voice channel..");
             this.manager.leave(guild.id);
             this.queue.delete(guild.id);
         } else {
@@ -124,8 +124,8 @@ class MusicManager {
                 let npembed = new MessageEmbed()
                 .setTitle("Now Playing")
                 .setURL(song.info.uri)
-                .setThumbnail(`http://img.youtube.com/vi/${song.info.identifier}/hqdefault.jpg`)
-                .setDescription(`Title: **${song.info.title}** ${song.info.isStream ? "**[🔴 Live]**" : ""}\nBy **${song.info.author}**\nrequested by **${song.requestedBy.tag}**\nAudio Server: **${serverQueue.node}**\nDuration: **${` ${song.info.isStream ? "In live since " : ""} ${ms(song.info.length, { long: true })}`}**`)
+                .setThumbnail(`http://img.youtube.com/vi/${song.info.identifier||null}/hqdefault.jpg`)
+                .setDescription(`Title: **${song.info.title||song.info.identifier}** ${song.info.isStream ? "**[🔴 Live]**" : ""}\nBy **${song.info.author||"none"}**\nRequested by **${song.requestedBy.tag}**\nAudio Server: **${serverQueue.node}**\nDuration: **${` ${song.info.isStream ? "Streaming since " : ""} ${ms(song.info.length, { long: true })}`}**\nIs seekable **${song.info.isSeekable ? "Yes" : "No"}**`)
                 .setColor("GREEN")
                 .setFooter(`requested by ${song.requestedBy.tag}`, song.requestedBy.displayAvatarURL({ dynamic: true }))
 
