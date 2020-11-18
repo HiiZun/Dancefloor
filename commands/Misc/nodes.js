@@ -1,6 +1,6 @@
 const Command = require("../../Base/Command");
 const {MessageEmbed} = require("discord.js")
-
+const ms = require("ms")
 class Nodes extends Command {
 
     constructor(client) {
@@ -12,7 +12,7 @@ class Nodes extends Command {
     }
 
     async run(message, args) {
-        message.channel.send("Fetching nodes status please wait...").then((msg) => {
+        message.channel.send(`${this.client.config.emojis.loading} | Fetching nodes status please wait...`).then((msg) => {
 
             let embed = new MessageEmbed()
             .setDescription("List of available audio nodes")

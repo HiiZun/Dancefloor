@@ -13,9 +13,9 @@ class Stop extends Command {
 
     async run(message, args) {
         const serverQueue = this.client.musicManager.queue.get(message.guild.id);
-        if (!serverQueue) return message.channel.send("Queue is empty!");
+        if (!serverQueue) return message.channel.send(`${this.client.config.emojis.failed} | Queue is empty !`);
         serverQueue.destroy();
-        message.channel.send("Disconnected!");
+        message.channel.send(`${this.client.config.emojis.success} | Disconnected !`);
     }
 
 }

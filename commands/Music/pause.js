@@ -13,10 +13,10 @@ class Pause extends Command {
 
     async run(message, args) {
         const serverQueue = this.client.musicManager.queue.get(message.guild.id);
-        if (!serverQueue) return message.channel.send("Queue is empty!");
-        if (!serverQueue.playing) return message.channel.send("Queue already paused");
+        if (!serverQueue) return message.channel.send(`${this.client.config.emojis.failed} | Queue is empty!`);
+        if (!serverQueue.playing) return message.channel.send(`${this.client.config.emojis.failed} | Queue already paused`);
         serverQueue.pause();
-        message.channel.send("Paused !");
+        message.channel.send(`${this.client.config.emojis.success} | Paused !`);
     }
 
 }

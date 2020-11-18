@@ -18,7 +18,7 @@ class Message {
         if (!command) return;
 
         if(command.help.category === "Owner" && !this.client.config.owners.includes(message.author.id)){
-            return message.channel.send("Hey ! This command is only allowed to bot developers")
+            return message.channel.send(`${this.client.config.emojis.failed} | Hey ! This command is only allowed to bot developers`)
         }
 
         try {
@@ -26,7 +26,7 @@ class Message {
             this.client.logger.log(`${message.author.tag} ran the command ${command.name}`, 'cmd')
         } catch(e) {
             console.error(e);
-            return message.channel.send(`Something went wrong while executing command "**${cmd}**"!`);
+            return message.channel.send(`${this.client.config.emojis.failed} | Something went wrong while executing command "**${cmd}**"!`);
         }
     }
 
