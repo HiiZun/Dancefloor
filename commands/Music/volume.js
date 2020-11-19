@@ -13,16 +13,16 @@ class Volume extends Command {
 
     async run(message, args) {
         const serverQueue = this.client.musicManager.queue.get(message.guild.id);
-        if (!serverQueue) return message.channel.send("Queue is empty!");
+        if (!serverQueue) return message.channel.send(`${this.client.config.emojis.failed} | Queue is empty!`);
         if (!args[0]) {
             message.channel.send(`Current volume: **${serverQueue.volume}%**.`);
         } else {
             const value = args[0];
-            if (isNaN(value)) return message.channel.send("Make sure the value is a number.");
-            if(parseInt(value) > 250) return message.channel.send("Volume limit reached (250%)")
-            if(parseInt(value) < 0) return message.channel.send("Invalid value (less than 0%)")
+            if (isNaN(value)) return message.channel.send(`${this.client.config.emojis.failed} | Make sure the value is a number.`);
+            if(parseInt(value) > 250) return message.channel.send(`${this.client.config.emojis.failed} | Volume limit reached (250%)`)
+            if(parseInt(value) < 0) return message.channel.send(`${this.client.config.emojis.failed} | Invalid value (less than 0%)`)
             serverQueue.setVolume(parseInt(value));
-            message.channel.send(`New volume: **${value}%**.`);
+            message.channel.send(`${this.client.config.emojis.success} | New volume: **${value}%**.`);
         }
     }
 

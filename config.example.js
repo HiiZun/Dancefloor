@@ -12,5 +12,11 @@ module.exports = {
             /* see https://github.com/botblock/BLAPI/blob/master/src/fallbackListData.ts */
         },
         "danbot":false
+    },
+    emojis: {
+        "success":"<:success:778685739877007420>",
+        "failed":"<:failed:778685739876483092>",
+        "loading":"<a:loading:778685739709628417>",
+        "sync":"<:sync:778686528821657600>"
     }
 };

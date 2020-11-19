@@ -13,10 +13,10 @@ class NowPlaying extends Command {
 
     async run(message, args) {
         const serverQueue = this.client.musicManager.queue.get(message.guild.id);
-        if (!serverQueue) return message.channel.send("Queue is empty!");
-        if (!serverQueue.playing) return message.channel.send("Player paused.");
+        if (!serverQueue) return message.channel.send(`${this.client.config.emojis.failed} | Queue is empty!`);
+        if (!serverQueue.playing) return message.channel.send(`${this.client.config.emojis.failed} | Player paused.`);
         const currSong = serverQueue.songs[0];
-        message.channel.send(`Now playing: **${currSong.info.title}** by **${currSong.info.author}**, requested by ${currSong.requestedBy.tag}`);
+        message.channel.send(`${this.client.config.emojis.success} | Now playing: **${currSong.info.title}** by **${currSong.info.author}**, requested by ${currSong.requestedBy.tag}`);
     }
 
 }

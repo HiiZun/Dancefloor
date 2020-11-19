@@ -13,7 +13,7 @@ class Play extends Command {
     }
 
     async run(message, args) {
-        if (!message.member.voice.channel) return message.channel.send("You must join a voice channel to use this command.");
+        if (!message.member.voice.channel) return message.channel.send(`${this.client.config.emojis.failed} | You must join a voice channel to use this command.`);
 
         let track = args.join(" ")
         
@@ -23,10 +23,10 @@ class Play extends Command {
                 this.client.musicManager.handleVideo(message, message.member.voice.channel, song.tracks[0]);
                 break;
             case "NO_MATCHES":
-                error("there is no matching video with your query")
+                this.error(message, "there is no matching video with your query")
                 break;
             case "LOAD_FAILED":
-                error("failed to load the track")
+                this.error(message, "failed to load the track")
                 break;
             case "PLAYLIST_LOADED":
                 let selected = song.playlistInfo.selectedTrack;
@@ -41,20 +41,17 @@ class Play extends Command {
                 this.client.musicManager.handleVideo(message, message.member.voice.channel, song.tracks[0]);
                 break;
             default:
-                error("unknown error code")
+                this.error(message, "unknown error code")
                 break;
         }
         
-function error(err) {
-   return message.channel.send(`Oops an error occured while tried to search: ${err}`)
-}
-
-
-
-
-
 
     }
+
+
+    error(message, err) {
+        return message.channel.send(`${this.client.config.emojis.failed} | Oops an error occured while tried to search: ${err}`)
+     }
 
 }
 

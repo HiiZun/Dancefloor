@@ -13,9 +13,9 @@ class Shuffle extends Command {
 
     async run(message, args) {
         const serverQueue = this.client.musicManager.queue.get(message.guild.id);
-        if(!serverQueue) return message.channel.send("Queue is empty!");
+        if(!serverQueue) return message.channel.send(`${this.client.config.emojis.failed} | Queue is empty!`);
         serverQueue.songs = this.shuffle(serverQueue.songs)
-        return message.channel.send(`Queue shuffled !`)
+        return message.channel.send(`${this.client.config.emojis.success} | Queue shuffled !`)
     
 };
 

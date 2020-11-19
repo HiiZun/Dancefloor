@@ -13,11 +13,11 @@ class Skip extends Command {
 
     async run(message, args) {
         const serverQueue = this.client.musicManager.queue.get(message.guild.id);
-        if (!serverQueue) return message.channel.send("Queue is empty!");
-        if(serverQueue.loop) return message.channel.send("Loop is enabled!")
+        if (!serverQueue) return message.channel.send(`${this.client.config.emojis.failed} | Queue is empty!`);
+        if(serverQueue.loop) return message.channel.send(`${this.client.config.emojis.failed} | Loop is enabled!`) 
         if (!serverQueue.playing) serverQueue.playing = true;
         serverQueue.skip();
-        message.channel.send("Skipped !");
+        message.channel.send(`${this.client.config.emojis.success} | Skipped !`);
     }
 
 }

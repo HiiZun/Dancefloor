@@ -1,5 +1,12 @@
+const Dancefloor = require("./Dancefloor")
+
 class Command {
 
+    /**
+     * 
+     * @param {Dancefloor} client 
+     * @param {JSON} ops 
+     */
     constructor(client, ops = {}) {
         this.client = client;
         this._patch(ops);

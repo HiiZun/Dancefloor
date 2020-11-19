@@ -43,7 +43,7 @@ class MusicManager {
     }
 
     async handleVideo(message, voiceChannel, song) {
-        if(!this.startedNodes.length) return message.channel.send("Oops there is no audio sending server available !")
+        if(!this.startedNodes.length) return message.channel.send(`${this.client.config.emojis.failed} | Oops there is no audio nodes available !`)
         const serverQueue = this.queue.get(message.guild.id);
 
         if (!serverQueue) {
@@ -53,7 +53,7 @@ class MusicManager {
                 node: select(this.client, this.startedNodes).id
             });
             if(Array.isArray(song)){
-                message.channel.send(`[Audioserver ${queue.getNode()} 🎶] Importing **${song.length}** videos, please wait...`)
+                message.channel.send(`${this.client.config.emojis.sync} | Importing **${song.length}** videos, please wait...`)
                 for (let i = 0; i < song.length; i++) {
                     const s = song[i];
                     s.requestedBy = message.author
@@ -76,16 +76,15 @@ class MusicManager {
                 queue.setPlayer(player);
                 this.play(message.guild, Array.isArray(song) ? song[0] : song);
             } catch (error) {
-                console.error(`[Audioserver ${queue.getNode()} 🎶] I could not join the voice channel: ${error}`);
-                message.channel.send(`[Audioserver ${serverQueue.node} 🎶] I could not join the voice channel: ${error.message}`);
+                message.channel.send(`${this.client.config.emojis.failed} | I could not join the voice channel: ${error.message}`);
                 this.queue.delete(message.guild.id);
                 this.manager.leave(message.guild.id);
             }
         } else {
             if(Array.isArray(song)){
-                message.channel.send(`Importing **${song.length}** videos, please wait...`)
+                message.channel.send(`${this.client.config.emojis.sync} | Importing **${song.length}** videos, please wait...`)
 
-                if(song.length + serverQueue.songs.length >= 200) return message.channel.send("Oops you reached the queue's limit (200) !")
+                if(song.length + serverQueue.songs.length >= 200) return message.channel.send(`${this.client.config.emojis.failed} | Oops you reached the queue's limit (200) !`)
 
                 for (let i = 0; i < song.length; i++) {
                     const s = song[i];
@@ -93,19 +92,19 @@ class MusicManager {
                     serverQueue.songs.push(s)
                 }
             } else {
-                if(serverQueue.songs.length + 1 >= 200) return message.channel.send("Oops you reached the queue's limit (200) !")
+                if(serverQueue.songs.length + 1 >= 200) return message.channel.send(`${this.client.config.emojis.failed} | Oops you reached the queue's limit (200) !`)
             song.requestedBy = message.author
             serverQueue.songs.push(song);
             }
 
-            message.channel.send(`Added ${Array.isArray(song) ? `**${song.length}** videos to the queue` : `**${song.info.title||"none"}** by **${song.info.author||"none"}**`}`)
+            message.channel.send(`${this.client.config.emojis.success} | Added ${Array.isArray(song) ? `**${song.length}** videos to the queue` : `**${song.info.title||"none"}** by **${song.info.author||"none"}**`}`)
         }
     }
 
     play(guild, song) {
         const serverQueue = this.queue.get(guild.id);
         if (!song) {
-            serverQueue.textChannel.send("Queue is empty ! Leaving voice channel..");
+            serverQueue.textChannel.send("Queue is empty ! Leaving voice channel...");
             this.manager.leave(guild.id);
             this.queue.delete(guild.id);
         } else {

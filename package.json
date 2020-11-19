@@ -9,6 +9,10 @@
     },
     "author": "HiiZun",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hiizun/dancefloor"
+    },
     "devDependencies": {
         "nodemon": "^2.0.6"
     },

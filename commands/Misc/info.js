@@ -27,7 +27,7 @@ exec('git rev-parse --abbrev-ref HEAD', (err, stdout, stderr) => {
     version = require("../../package.json").version
 
     let embed = new MessageEmbed()
-    .setDescription(`${this.client.user.tag} is an instance of Dancefloor [GitHub](${require("../../package.json").repository.url}) created with <3 by [HiiZun](https://github.com/HiiZun)`)
+    .setDescription(`${this.client.user.tag} is an instance of Dancefloor [GitHub](${require("../../package.json").repository.url||"https//hiizun.codes"}) created with <3 by [HiiZun](https://github.com/HiiZun)`)
     .addField("Branch", branch)
     .addField("Version", version)
     .addField("Owner(s)", this.client.config.owners.map(o => this.client.users.cache.get(o).tag||o))

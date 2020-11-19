@@ -17,7 +17,7 @@ class Ping extends Command {
             .then(m => {
                 const latency = m.createdTimestamp - initial;
 
-                return m.edit(`Pong! Took \`${latency}ms\`.`);
+                return m.edit(`Pong! Took \`${latency}ms\`.\nDiscord ping: \`${this.client.ws.ping}ms\``);
             });
     }
 

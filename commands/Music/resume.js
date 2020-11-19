@@ -13,10 +13,10 @@ class Resume extends Command {
 
     async run(message, args) {
         const serverQueue = this.client.musicManager.queue.get(message.guild.id);
-        if (!serverQueue) return message.channel.send("Queue is empty!");
-        if (serverQueue.playing) return message.channel.send("Queue is being played");
+        if (!serverQueue) return message.channel.send(`${this.client.config.emojis.failed} | Queue is empty!`);
+        if (serverQueue.playing) return message.channel.send(`${this.client.config.emojis.failed} | Queue is being played`);
         serverQueue.resume();
-        message.channel.send("Resumed !");
+        message.channel.send(`${this.client.config.emojis.success} | Resumed !`);
     }
 
 }
