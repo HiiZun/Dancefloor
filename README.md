@@ -60,6 +60,9 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
+**You're not allowed in any shape to add a instance of this bot even if you edit it on any Discord Bot List !**
+*This bot can only be used for personal or internal use.*
+
 Copyright © 2020 [HiiZun](https://github.com/HiiZun).<br />
 This project is [MIT](https://github.com/HiiZun/Dancefloor/blob/master/LICENSE) licensed.
 
