@@ -1,6 +1,7 @@
 
 const { bgBlue, black, green } = require("chalk");
 
+
 function dateTimePad(value, digits){
 	let number = value;
 	while (number.toString().length < digits) {
@@ -15,8 +16,7 @@ function format(tDate){
     dateTimePad(tDate.getDate(), 2) + " " +
     dateTimePad(tDate.getHours(), 2) + ":" +
     dateTimePad(tDate.getMinutes(), 2) + ":" +
-    dateTimePad(tDate.getSeconds(), 2) + "." +
-    dateTimePad(tDate.getMilliseconds(), 3));
+    dateTimePad(tDate.getSeconds(), 2))
 }
 
 module.exports = {

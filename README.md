@@ -23,8 +23,9 @@
 
 ## Prerequisites
 
-- node 12.x
+- node 22.x
 - npm >=5.5.0
+- Docker (optional)
 
 ## Install
 
@@ -42,7 +43,7 @@ npm run start
 
 👤 **HiiZun**
 
-* Website: http://HiiZun.codes
+* Website: http://HiiZun.fr
 * Twitter: [@HiiZunfr](https://twitter.com/HiiZunfr)
 * Github: [@HiiZun](https://github.com/HiiZun)
 
@@ -54,13 +55,10 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 
 Give a ⭐️ if this project helped you!
 
-<a href="https://www.patreon.com/botyoutube">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
 
 ## 📝 License
 
-Copyright © 2020 [HiiZun](https://github.com/HiiZun).<br />
+Copyright © 2024 [HiiZun](https://github.com/HiiZun).<br />
 This project is [MIT](https://github.com/HiiZun/Dancefloor/blob/master/LICENSE) licensed.
 
 ***
