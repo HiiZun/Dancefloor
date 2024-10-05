@@ -6,7 +6,7 @@ WORKDIR /app
 # Install app dependencies
 COPY package.json ./
 
-RUN npm install --production --silent
+RUN npm install --production
 
 # Bundle app source
 COPY . .
