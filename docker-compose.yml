@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  bot:
+    build: .
+    image: ghcr.io/hiizun/dancefloor:latest
+    container_name: dancefloor
+    restart: on-failure
+    environment:
+      - TOKEN=${TOKEN}
+      - GUILD_ID=${GUILD_ID}
+      - APPLICATION_ID=${APPLICATION_ID}
+    volumes:
+      - nodes:/app/nodes.json
+
+volumes:
+  nodes:

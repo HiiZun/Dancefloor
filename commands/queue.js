@@ -10,7 +10,7 @@ module.exports = {
         const player = interaction.client.riffy.players.get(interaction.guild.id);
         if (!player) return await interaction.reply('No music is playing in this server!');
 
-        if (player.queue.size <= 1 || !player.current) return await interaction.reply('There are no songs in the queue!');
+        if (player.queue.size < 1 || !player.current) return await interaction.reply('There are no songs in the queue!');
         
         const current = player.current;
         const queue = player.queue;

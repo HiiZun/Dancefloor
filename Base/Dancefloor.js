@@ -58,9 +58,23 @@ class Client extends DiscordClient {
                 })
 
              }).on('trackEnd', (player, track, reason) => {
-                Logger.log(`Riffy Track End: ${player.guild} - ${track.info.title} - ${reason}`, "debug");
+                Logger.log(`Riffy Track End`, "debug");
+                
+                // remove the message id from the track object
+
+                if(track.messageId) {
+                    try {
+                    let channel = this.channels.cache.get(player.textChannel);
+                    channel.messages.fetch(track.messageId).then((msg) => {
+                        msg.delete();
+                    });
+                } catch (error) {
+                    Logger.log(`Error while deleting message: ${error}`, "error");
+                }
+                }
+
              }).on('queueEnd', (player) => {
-                Logger.log(`Riffy Queue End: ${player.guild}`, "debug");
+                Logger.log(`Riffy Queue End.`, "debug");
 
                 //autoplay
                 if(player.autoplaymode) {
@@ -69,12 +83,16 @@ class Client extends DiscordClient {
                     player.destroy();
                 }
 
+                // send a message to the text channel
+                let channel = this.channels.cache.get(player.textChannel);
+                channel.send("Queue has ended.");
+
              }).on('playerPause', (player) => {
-                Logger.log(`Riffy Player Pause: ${player.guild}`, "debug");
+                Logger.log(`Riffy Player Pause`, "debug");
              }).on('playerResume', (player) => {
-                Logger.log(`Riffy Player Resume: ${player.guild}`, "debug");
+                Logger.log(`Riffy Player Resume`, "debug");
              }).on('playerUpdate', (player, state) => {
-                Logger.log(`Riffy Player Update:`, "debug");
+                Logger.log(`Riffy Player Update`, "debug");
 
                 if(Math.random() > 0.3) return;
                 if(player.current && player.current.messageId) {
