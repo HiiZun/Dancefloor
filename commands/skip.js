@@ -10,7 +10,8 @@ module.exports = {
 
         if (!player.current) return await interaction.reply('There are no songs in the queue to skip!');
 
-        if(player.queue.size <= 1) {
+        // if no queue and not 24/7 mode and no autoplay
+        if(player.queue.size <= 1 && !player.is247 && !player.autoplaymode) {
             player.stop();
             return await interaction.reply('Stopped!');
         }

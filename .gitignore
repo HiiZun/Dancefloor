@@ -5,3 +5,4 @@ package-lock.json
 config.json
 config.js
 nodes.json
+database.sqlite

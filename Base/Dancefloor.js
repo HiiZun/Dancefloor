@@ -5,6 +5,7 @@ const {Riffy} = require("riffy");
 const pkg = require("../package.json");
 const nodes = require("../nodes.json");
 const {Classic} = require("musicard")
+const db = require("./db");
 
 
 class Client extends DiscordClient {
@@ -12,6 +13,8 @@ class Client extends DiscordClient {
     constructor(...args) {
         super(...args);
         this.riffy;
+        this.db = db;
+        this.summoned247 = false;
         this.initMusic();
         this.registerSlashCommands();
         this.registerEvents();
@@ -19,7 +22,11 @@ class Client extends DiscordClient {
     }
 
     async initMusic() {
-       this.riffy = new Riffy(this, require("../nodes.json"), {
+        let nodes = await db.nodes.findAll()
+        if(nodes.length === 0) {
+            return Logger.log("No nodes found in the database", "error");
+        }
+       this.riffy = new Riffy(this, nodes, {
            send: (payload) => {
                const guild = this.guilds.cache.get(payload.d.guild_id);
                if (guild) guild.shard.send(payload);
@@ -32,16 +39,19 @@ class Client extends DiscordClient {
               Logger.log(`Riffy Error: ${error}`, "error");
        }).on('debug', (message) => {
              // Logger.log(`Riffy Debug: ${message}`, "debug");
-         }).on('nodeConnect', (node) => {
+         }).on('nodeConnect', async (node) => {
                 Logger.log(`Riffy Node Connected: ${node}`, "debug");
              }).on('nodeError', (node, error) => {
                 Logger.log(`Riffy Node Error: ${node} - ${error}`, "error");
              }).on('nodeReconnect', (node) => {
                 Logger.log(`Riffy Node Reconnecting: ${node}`, "debug");
-             }).on('nodeDisconnect', (node, reason) => {
+             }).on('nodeDisconnect', async (node, reason) => {
                 Logger.log(`Riffy Node Disconnected: ${node} - ${reason.toString()}`, "warn");
              }).on('trackStart', async (player, track) => {
                 Logger.log(`Riffy Track Start: ${track.info.author} - ${track.info.title}`, "debug");
+
+                if(player.is247)
+                    return;
 
                     let {embed, file: buffer} = await this._getNPEmbed(player, track);
 
@@ -61,6 +71,10 @@ class Client extends DiscordClient {
                 Logger.log(`Riffy Track End`, "debug");
                 
                 // remove the message id from the track object
+                if(player.is247) {
+                    console.log("24/7 mode ON, changing song")
+                    return;
+                }
 
                 if(track.messageId) {
                     try {
@@ -83,6 +97,9 @@ class Client extends DiscordClient {
                     player.destroy();
                 }
 
+                if(player.is247)
+                    return;
+
                 // send a message to the text channel
                 let channel = this.channels.cache.get(player.textChannel);
                 channel.send("Queue has ended.");
@@ -92,8 +109,8 @@ class Client extends DiscordClient {
              }).on('playerResume', (player) => {
                 Logger.log(`Riffy Player Resume`, "debug");
              }).on('playerUpdate', (player, state) => {
-                Logger.log(`Riffy Player Update`, "debug");
-
+                if(player.is247)
+                    return;
                 if(Math.random() > 0.3) return;
                 if(player.current && player.current.messageId) {
                     console.log("Updating message") 
@@ -122,6 +139,66 @@ class Client extends DiscordClient {
                 Logger.log(`Riffy Player Error: ${player.guild} - ${error}`, "error");
              });
             
+                // Start periodic check for 24/7 players every 5 minutes (300,000 milliseconds)
+   setInterval(async () => {
+    if (!this.db || !this.db.alwaysplay) return;
+
+    try {
+    // Fetch all players in the DB
+    let players = await this.db.alwaysplay.findAll();
+
+    // Iterate over each player and ensure they are still playing
+    for (const player of players) {
+        const existingPlayer = this.riffy.players.get(player.guild_id);
+
+        if (!existingPlayer || !existingPlayer.connected) {
+            Logger.log(`Reconnecting 24/7 player for guild ${player.guild_id}`, "debug");
+
+            const guild = this.guilds.cache.get(player.guild_id);
+            if (!guild) {
+                await this.db.alwaysplay.destroy({
+                    where: { guild_id: player.guild_id }
+                });
+                continue;
+            }
+
+            const channel = guild.channels.cache.get(player.channel_id);
+            if (!channel) {
+                await this.db.alwaysplay.destroy({
+                    where: { guild_id: player.guild_id }
+                });
+                continue;
+            }
+
+            const connection = await this.riffy.createConnection({
+                guildId: guild.id,
+                voiceChannel: channel.id,
+                textChannel: channel.id,
+                deaf: true,
+            });
+
+            const resolve = await this.riffy.resolve({
+                query: player.song,
+                requester: this.user,
+            });
+
+            const { loadType, tracks } = resolve;
+            if (loadType === "search" || loadType === "track") {
+                const track = tracks.shift();
+                track.info.requester = this.user;
+                connection.queue.add(track);
+
+                connection.autoplaymode = true;
+                connection.is247 = true;
+
+                if (!connection.playing && !connection.paused) connection.play();
+            }
+        }
+    }
+} catch (error) {
+    Logger.log(`Error while checking 24/7 players: ${error}`, "error");
+}
+}, 0.10*60*1000); 
 
             this.on("raw", (d) => this.riffy.updateVoiceState(d));
     }

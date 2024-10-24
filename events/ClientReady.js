@@ -19,6 +19,7 @@ class ClientReady {
         })
 
         this.client.riffy.init(this.client.user.id);
+
     }
 
 }

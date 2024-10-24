@@ -10,8 +10,10 @@ services:
       - TOKEN=${TOKEN}
       - GUILD_ID=${GUILD_ID}
       - APPLICATION_ID=${APPLICATION_ID}
-    volumes:
-      - nodes:/app/nodes.json
-
-volumes:
-  nodes:
+      - OWNERS=${OWNERS}
+      - NODE_ENV=production
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}

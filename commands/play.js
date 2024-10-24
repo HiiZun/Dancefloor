@@ -19,6 +19,16 @@ module.exports = {
             return await interaction.reply('You need to be in a voice channel to play music!');
         }
 
+        // check if the bot is not in 24/7 mode
+        let db247 = await interaction.client.db.alwaysplay.findAll({
+            where: {
+                guild_id: interaction.guild.id
+            }
+        })
+        if(db247.length > 0) {
+            return await interaction.reply('The bot is in 24/7 mode, you can\'t play music! Run `/stop` to disable 24/7 mode.');
+        }
+
         // Check if the bot has permission to join the voice channel
         const permissions = interaction.member.voice.channel.permissionsFor(interaction.client.user);
         if (!permissions.has(PermissionsBitField.Flags.Connect) || !permissions.has(PermissionsBitField.Flags.Speak)) {

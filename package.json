@@ -14,7 +14,8 @@
         "url": "https://github.com/hiizun/dancefloor"
     },
     "devDependencies": {
-        "nodemon": "^3.1.7"
+        "nodemon": "^3.1.7",
+        "sqlite3": "^5.1.7"
     },
     "dependencies": {
         "@distube/ytsr": "^2.0.4",
@@ -24,9 +25,11 @@
         "discord.js": "^14.16.2",
         "dotenv": "^16.4.5",
         "kurasuta": "^3.0.2",
+        "mariadb": "^3.3.2",
         "ms": "^2.1.3",
         "musicard": "^2.0.5",
         "riffy": "^1.0.7-rc.2",
+        "sequelize": "^6.37.4",
         "shoukaku": "github:shipgirlproject/Shoukaku#master"
     }
 }
