@@ -80,19 +80,6 @@ module.exports = {
             });
             if (node) return await interaction.reply('This node already exists!');
 
-            // check the connection
-            try {
-            await interaction.client.riffy.createNode({
-                name: name,
-                host: host,
-                port: port,
-                password: password,
-                secure: secure
-            });
-        } catch (e) {
-            return interaction.reply(`There was an error connecting to the node: ${e.message}`);
-        }
-
         // add the node to the database
         await interaction.client.db.nodes.create({
             name: name,
