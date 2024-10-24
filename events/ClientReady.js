@@ -18,6 +18,12 @@ class ClientReady {
             type: ActivityType.Listening
         })
 
+        let nodes = await this.client.db.nodes.findAll()
+
+        if(nodes.length < 1) {
+            return logger.log('No nodes found in the database, please add one', 'error');
+        }
+
         this.client.riffy.init(this.client.user.id);
 
     }
