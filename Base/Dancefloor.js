@@ -3,7 +3,6 @@ const fs = require("fs");
 const Logger = require("./Logger");
 const {Riffy} = require("riffy");
 const pkg = require("../package.json");
-const nodes = require("../nodes.json");
 const {Classic} = require("musicard")
 const db = require("./db");
 
